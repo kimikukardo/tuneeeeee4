@@ -1,0 +1,34 @@
+name: Compilar Realtune (VST3)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Clonar este repo
+        uses: actions/checkout@v4
+
+      - name: Clonar JUCE
+        run: git clone --depth 1 https://github.com/juce-framework/JUCE.git ../JUCE
+
+      - name: Configurar con CMake
+        run: cmake -B build
+
+      - name: Compilar (Release)
+        run: cmake --build build --config Release
+
+      - name: Subir el VST3 compilado
+        uses: actions/upload-artifact@v4
+        with:
+          name: Realtune-VST3
+          path: build/Realtune_artefacts/Release/VST3/Realtune.vst3
+
+      - name: Subir tambien el ejecutable Standalone (para probarlo sin DAW)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Realtune-Standalone
+          path: build/Realtune_artefacts/Release/Standalone/Realtune.exe
