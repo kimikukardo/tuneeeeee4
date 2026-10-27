@@ -15,8 +15,8 @@ jobs:
       - name: Clonar JUCE (dentro del workspace)
         run: git clone --depth 1 https://github.com/juce-framework/JUCE.git JUCE
 
-      - name: Configurar con CMake (Forzando 64-bits)
-        run: cmake -B build -G "Visual Studio 17 2022" -A x64
+      - name: Configurar con CMake
+        run: cmake -B build -A x64
 
       - name: Compilar (Release)
         run: cmake --build build --config Release --parallel 4
@@ -32,4 +32,3 @@ jobs:
         with:
           name: Realtune-Standalone
           path: build/Realtune_artefacts/Release/Standalone/Realtune.exe
-          
