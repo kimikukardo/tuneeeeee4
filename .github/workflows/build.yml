@@ -12,14 +12,14 @@ jobs:
       - name: Clonar este repo
         uses: actions/checkout@v4
 
-      - name: Clonar JUCE
-        run: git clone --depth 1 https://github.com/juce-framework/JUCE.git ../JUCE
+      - name: Clonar JUCE (dentro del workspace)
+        run: git clone --depth 1 https://github.com/juce-framework/JUCE.git JUCE
 
-      - name: Configurar con CMake
-        run: cmake -B build
+      - name: Configurar con CMake (Forzando 64-bits)
+        run: cmake -B build -G "Visual Studio 17 2022" -A x64
 
       - name: Compilar (Release)
-        run: cmake --build build --config Release
+        run: cmake --build build --config Release --parallel 4
 
       - name: Subir el VST3 compilado
         uses: actions/upload-artifact@v4
@@ -32,3 +32,4 @@ jobs:
         with:
           name: Realtune-Standalone
           path: build/Realtune_artefacts/Release/Standalone/Realtune.exe
+          
